@@ -6,7 +6,6 @@
 # ║              github.com/Alextaylorvhjnf                 ║
 # ╚══════════════════════════════════════════════════════════╝
 
-# Check if the script is run as root
 if [[ $EUID -ne 0 ]]; then
     echo -e "\033[0;31m╔════════════════════════════════════════════╗\033[0m"
     echo -e "\033[0;31m║  This script must be run as root!         ║\033[0m"
@@ -15,7 +14,6 @@ if [[ $EUID -ne 0 ]]; then
     exit 1
 fi
 
-# Define colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -23,58 +21,35 @@ CYAN='\033[0;36m'
 MAGENTA='\033[0;35m'
 BLUE='\033[0;34m'
 WHITE='\033[1;37m'
-BOLD='\033[1m'
 NC='\033[0m'
 
-# Define paths
 CONFIG_DIR="/root/alex-core"
 SERVICE_DIR="/etc/systemd/system"
 ALEX_BIN="${CONFIG_DIR}/alex"
 SCRIPT_PATH="/usr/local/bin/ALEX"
 HAPROXY_CFG="/etc/haproxy/haproxy.cfg"
 
-# Function to press key to continue
 press_key() {
     echo
     read -rp "$(echo -e ${CYAN}Press any key to continue...${NC})"
 }
 
-# Function to display spinner animation
-spinner() {
-    local pid=$1
-    local delay=0.1
-    local spinstr='⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏'
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf " [%c]  " "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b\b\b\b"
-    done
-    printf "    \b\b\b\b"
-}
-
-# Function to show progress
-show_progress() {
-    echo -e "${CYAN}⏳ $1...${NC}"
-}
-
-# Function to show success
 show_success() {
     echo -e "${GREEN}✅ $1${NC}"
 }
 
-# Function to show error
 show_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-# Function to show warning
 show_warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
 }
 
-# Function to detect network interface
+show_progress() {
+    echo -e "${CYAN}⏳ $1...${NC}"
+}
+
 detect_network_interface() {
     local interface=$(ip link | grep -E '^[0-9]+: (eth[0-9]+|ens[0-9]+)' | awk '{print $2}' | cut -d':' -f1 | head -n 1)
     if [[ -z "$interface" ]]; then
@@ -85,7 +60,6 @@ detect_network_interface() {
     echo "$interface"
 }
 
-# Function to install dependencies
 install_dependencies() {
     local deps=("unzip" "jq" "curl" "iproute2" "bridge-utils" "haproxy")
     local missing=()
@@ -120,7 +94,6 @@ install_dependencies() {
     fi
 }
 
-# Function to display manual download instructions
 manual_download_instructions() {
     clear
     echo -e "${RED}╔══════════════════════════════════════════════════════════╗${NC}"
@@ -151,7 +124,6 @@ manual_download_instructions() {
     exit 1
 }
 
-# Function to validate downloaded zip file
 validate_zip_file() {
     local zip_file="$1"
     if [[ ! -f "$zip_file" ]]; then
@@ -169,14 +141,6 @@ validate_zip_file() {
 download_and_extract_alex() {
     if [[ -f "${ALEX_BIN}" ]] && [[ -x "${ALEX_BIN}" ]]; then
         show_success "ALEX core is already installed"
-        sleep 1
-        return 0
-    fi
-    
-    # Also check if rgt binary exists from manual install
-    if [[ -f "${CONFIG_DIR}/rgt" ]] && [[ -x "${CONFIG_DIR}/rgt" ]]; then
-        mv "${CONFIG_DIR}/rgt" "${ALEX_BIN}"
-        show_success "ALEX core found and activated"
         sleep 1
         return 0
     fi
@@ -206,40 +170,30 @@ download_and_extract_alex() {
         manual_download_instructions
     fi
     
-    # Check for rgt file (original binary name inside zip)
+    # ⭐ IMPORTANT: Rename rgt binary to alex
     if [[ -f "${CONFIG_DIR}/rgt" ]]; then
         mv "${CONFIG_DIR}/rgt" "${ALEX_BIN}"
-    elif [[ ! -f "${ALEX_BIN}" ]]; then
+        chmod +x "${ALEX_BIN}"
         rm -rf "$DOWNLOAD_DIR"
-        manual_download_instructions
+        show_success "ALEX core installed successfully"
+        echo
+        return 0
     fi
     
-    chmod +x "${ALEX_BIN}" 2>/dev/null
+    # If alex file already exists in extracted files
+    if [[ -f "${CONFIG_DIR}/alex" ]]; then
+        mv "${CONFIG_DIR}/alex" "${ALEX_BIN}"
+        chmod +x "${ALEX_BIN}"
+        rm -rf "$DOWNLOAD_DIR"
+        show_success "ALEX core installed successfully"
+        echo
+        return 0
+    fi
+    
     rm -rf "$DOWNLOAD_DIR"
-    
-    if [[ ! -x "${ALEX_BIN}" ]]; then
-        manual_download_instructions
-    fi
-    
-    show_success "ALEX core installed successfully"
-    echo
-    
-    # Download alex-port-monitor.sh
-    MONITOR_SCRIPT_URL="https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/tools/alex-port-monitor.sh"
-    MONITOR_SCRIPT_PATH="${CONFIG_DIR}/tools/alex-port-monitor.sh"
-    
-    echo -e "${CYAN}📥 Downloading monitoring tools...${NC}"
-    mkdir -p "${CONFIG_DIR}/tools"
-    
-    if curl -sSL -o "$MONITOR_SCRIPT_PATH" "$MONITOR_SCRIPT_URL" 2>/dev/null; then
-        chmod +x "$MONITOR_SCRIPT_PATH"
-        show_success "Monitoring tools installed"
-    else
-        show_warning "Could not download monitoring tools (non-critical)"
-    fi
+    manual_download_instructions
 }
 
-# Function to update script
 update_script() {
     clear
     echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
@@ -281,7 +235,6 @@ update_script() {
     exit 0
 }
 
-# Function to check if a port is in use
 check_port() {
     local port=$1
     local transport=$2
@@ -294,7 +247,6 @@ check_port() {
     fi
 }
 
-# Function to validate IPv6 address
 check_ipv6() {
     local ip=$1
     ip="${ip#[}"
@@ -303,7 +255,6 @@ check_ipv6() {
     [[ $ip =~ $ipv6_pattern ]] && return 0 || return 1
 }
 
-# Function to validate IPv4 address
 check_ipv4() {
     local ip=$1
     ipv4_pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}$"
@@ -317,7 +268,6 @@ check_ipv4() {
     return 1
 }
 
-# Function to check for consecutive errors and restart
 check_consecutive_errors() {
     local service_name="$1"
     local tunnel_name=$(echo "$service_name" | sed 's/ALEX-//;s/.service//')
@@ -361,7 +311,6 @@ validate_vxlan_setup() {
     return 0
 }
 
-# Function to configure Direct tunnel
 direct_server_configuration() {
     clear
     echo -e "${CYAN}╔════════════════════════════════════════════╗${NC}"
@@ -380,16 +329,15 @@ direct_server_configuration() {
     esac
 }
 
-# Function to update HAProxy configuration
 update_haproxy_config() {
     local tunnel_name="$1"
     shift
     local ports=("$@")
     local kharej_bridge_ip="${ports[-1]}"
     unset 'ports[-1]'
-    local haproxy_config="${HAPROXY_CFG:-/etc/haproxy/haproxy.cfg}"
     local tunnel_port="${ports[-1]}"
     unset 'ports[-1]'
+    local haproxy_config="${HAPROXY_CFG:-/etc/haproxy/haproxy.cfg}"
 
     if [[ -z "$haproxy_config" ]]; then
         show_error "HAProxy configuration path is not defined"
@@ -455,7 +403,6 @@ EOF
     return 0
 }
 
-# Function to configure Direct tunnel for Iran server
 configure_direct_iran() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${WHITE}📋 Direct Tunnel - Iran Server Configuration${NC}"
@@ -570,7 +517,6 @@ configure_direct_iran() {
     ip addr flush dev br${vxlan_id} 2>/dev/null
     ip addr add "$iran_bridge_ip" dev br${vxlan_id}
 
-    # Save config
     config_file="${CONFIG_DIR}/direct-iran-${tunnel_name}.conf"
     cat << EOF > "$config_file"
 vxlan_id=$vxlan_id
@@ -583,7 +529,6 @@ kharej_bridge_ip=$kharej_bridge_ip
 ports=$input_ports
 EOF
 
-    # Create service
     service_file="${SERVICE_DIR}/ALEX-direct-iran-${tunnel_name}.service"
     cat << EOF > "$service_file"
 [Unit]
@@ -611,7 +556,6 @@ EOF
     return 0
 }
 
-# Function to configure Direct tunnel for Kharej server
 configure_direct_kharej() {
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${WHITE}📋 Direct Tunnel - Kharej Server Configuration${NC}"
@@ -711,7 +655,6 @@ EOF
     return 0
 }
 
-# Function to configure Iran server (Reverse)
 iran_server_configuration() {
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -812,7 +755,6 @@ EOF
     return 0
 }
 
-# Function to configure Kharej server (Reverse)
 kharej_server_configuration() {
     clear
     echo -e "${BLUE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
@@ -916,7 +858,6 @@ EOF
     return 0
 }
 
-# Function to manage tunnels
 manage_tunnel() {
     clear
     local tunnel_found=0
@@ -931,7 +872,6 @@ manage_tunnel() {
     echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
     echo
 
-    # List Direct Iran tunnels
     for config_path in "$CONFIG_DIR"/direct-iran-*.conf; do
         if [[ -f "$config_path" ]]; then
             tunnel_found=1
@@ -940,16 +880,12 @@ manage_tunnel() {
             service_name="ALEX-direct-iran-${tunnel_name}.service"
             tunnel_port=$(grep "^dstport=" "$config_path" 2>/dev/null | cut -d'=' -f2)
             [[ -z "$tunnel_port" ]] && tunnel_port="?"
-            configs+=("$config_path")
-            config_types+=("$tunnel_type")
-            tunnel_names+=("$tunnel_name")
-            service_names+=("$service_name")
+            configs+=("$config_path"); config_types+=("$tunnel_type"); tunnel_names+=("$tunnel_name"); service_names+=("$service_name")
             echo -e "${GREEN}${index})${NC} 🔵 Direct Iran: ${WHITE}${tunnel_name}${NC} | Port: ${YELLOW}${tunnel_port}${NC}"
             ((index++))
         fi
     done
 
-    # List Direct Kharej tunnels
     for config_path in "$CONFIG_DIR"/direct-kharej-*.conf; do
         if [[ -f "$config_path" ]]; then
             tunnel_found=1
@@ -958,16 +894,12 @@ manage_tunnel() {
             service_name="ALEX-direct-kharej-${tunnel_name}.service"
             tunnel_port=$(grep "^dstport=" "$config_path" 2>/dev/null | cut -d'=' -f2)
             [[ -z "$tunnel_port" ]] && tunnel_port="?"
-            configs+=("$config_path")
-            config_types+=("$tunnel_type")
-            tunnel_names+=("$tunnel_name")
-            service_names+=("$service_name")
+            configs+=("$config_path"); config_types+=("$tunnel_type"); tunnel_names+=("$tunnel_name"); service_names+=("$service_name")
             echo -e "${GREEN}${index})${NC} 🟢 Direct Kharej: ${WHITE}${tunnel_name}${NC} | Port: ${YELLOW}${tunnel_port}${NC}"
             ((index++))
         fi
     done
 
-    # List Iran Reverse tunnels
     for config_path in "$CONFIG_DIR"/iran-*.toml; do
         if [[ -f "$config_path" ]]; then
             tunnel_found=1
@@ -976,16 +908,12 @@ manage_tunnel() {
             service_name="ALEX-iran-${tunnel_name}.service"
             tunnel_port=$(grep "bind_addr" "$config_path" 2>/dev/null | head -n 1 | cut -d':' -f2 | cut -d'"' -f1)
             [[ -z "$tunnel_port" ]] && tunnel_port="?"
-            configs+=("$config_path")
-            config_types+=("$tunnel_type")
-            tunnel_names+=("$tunnel_name")
-            service_names+=("$service_name")
+            configs+=("$config_path"); config_types+=("$tunnel_type"); tunnel_names+=("$tunnel_name"); service_names+=("$service_name")
             echo -e "${GREEN}${index})${NC} 🔴 Reverse Iran: ${WHITE}${tunnel_name}${NC} | Port: ${YELLOW}${tunnel_port}${NC}"
             ((index++))
         fi
     done
 
-    # List Kharej Reverse tunnels
     for config_path in "$CONFIG_DIR"/kharej-*.toml; do
         if [[ -f "$config_path" ]]; then
             tunnel_found=1
@@ -994,10 +922,7 @@ manage_tunnel() {
             service_name="ALEX-kharej-${tunnel_name}.service"
             tunnel_port=$(grep "remote_addr" "$config_path" 2>/dev/null | cut -d':' -f2 | cut -d'"' -f1)
             [[ -z "$tunnel_port" ]] && tunnel_port="?"
-            configs+=("$config_path")
-            config_types+=("$tunnel_type")
-            tunnel_names+=("$tunnel_name")
-            service_names+=("$service_name")
+            configs+=("$config_path"); config_types+=("$tunnel_type"); tunnel_names+=("$tunnel_name"); service_names+=("$service_name")
             echo -e "${GREEN}${index})${NC} 🟡 Reverse Kharej: ${WHITE}${tunnel_name}${NC} | Port: ${YELLOW}${tunnel_port}${NC}"
             ((index++))
         fi
@@ -1032,9 +957,7 @@ manage_tunnel() {
     echo -e "  ${GREEN}2)${NC} ⏹️  Stop"
     echo -e "  ${GREEN}3)${NC} 🔄 Restart"
     echo -e "  ${GREEN}4)${NC} 📊 Status"
-    echo -e "  ${GREEN}5)${NC} ✏️  Edit"
-    echo -e "  ${GREEN}6)${NC} 🗑️  Delete"
-    [[ "$tunnel_type" == "direct-iran" || "$tunnel_type" == "iran" ]] && echo -e "  ${GREEN}7)${NC} 📈 Bandwidth"
+    echo -e "  ${GREEN}5)${NC} 🗑️  Delete"
     echo -e "  ${GREEN}0)${NC} ↩️  Return"
     echo
     read -p "$(echo -e ${YELLOW}Choice: ${NC})" manage_choice
@@ -1044,8 +967,7 @@ manage_tunnel() {
         2) systemctl stop "$service_name" && show_success "Stopped" || show_error "Failed to stop" ;;
         3) systemctl restart "$service_name" && show_success "Restarted" || show_error "Failed to restart" ;;
         4) systemctl status "$service_name" ;;
-        5) show_warning "Edit function - coming soon" ;;
-        6)
+        5)
             read -p "$(echo -e ${RED}Delete $tunnel_name? (y/n): ${NC})" confirm
             if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
                 systemctl stop "$service_name" 2>/dev/null
@@ -1061,7 +983,6 @@ manage_tunnel() {
     press_key
 }
 
-# Function to remove core
 remove_core() {
     clear
     echo -e "${RED}╔════════════════════════════════════════════╗${NC}"
@@ -1090,7 +1011,6 @@ remove_core() {
     press_key
 }
 
-# Function to display logo
 display_logo() {
     clear
     echo -e "${BLUE}"
@@ -1113,7 +1033,6 @@ EOF
     echo -e "${NC}"
 }
 
-# Function to display server info
 display_server_info() {
     SERVER_IP=$(hostname -I | awk '{print $1}')
     echo
@@ -1128,7 +1047,6 @@ display_server_info() {
     echo
 }
 
-# Function to display menu
 display_menu() {
     display_logo
     display_server_info
@@ -1144,7 +1062,6 @@ display_menu() {
     echo
 }
 
-# Function to display tools menu
 alex_tools() {
     clear
     echo -e "${MAGENTA}╔════════════════════════════════════════════╗${NC}"
@@ -1167,11 +1084,11 @@ alex_tools() {
     press_key
 }
 
-# Main loop
+# ═══════════════ MAIN ═══════════════
+
 install_dependencies
 mkdir -p "$CONFIG_DIR"
 
-# Check if the script is running from a pipe
 if [[ "$0" == "/dev/fd/"* || "$0" == "bash" ]]; then
     show_progress "Installing ALEX Manager"
     if ! curl -sSL -o "${SCRIPT_PATH}" "https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh"; then
@@ -1194,7 +1111,6 @@ if [[ "$0" == "/dev/fd/"* || "$0" == "bash" ]]; then
     exec "${SCRIPT_PATH}"
 fi
 
-# Install script if not already installed
 if [[ ! -f "${SCRIPT_PATH}" ]]; then
     show_progress "Installing ALEX Manager"
     if ! curl -sSL -o "${SCRIPT_PATH}" "https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh"; then
@@ -1209,7 +1125,6 @@ if [[ ! -f "${SCRIPT_PATH}" ]]; then
     exec "${SCRIPT_PATH}"
 fi
 
-# Main menu loop
 while true; do
     display_menu
     read -p "$(echo -e ${WHITE}Enter choice: ${NC})" choice
