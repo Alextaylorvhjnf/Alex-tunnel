@@ -1,5 +1,6 @@
 ![Menu](https://github.com/Alextaylorvhjnf/Alex-tunnel/blob/main/main.PNG)
 
+
 ALEX Tunnel
 https://img.shields.io/badge/version-1.2-blue
 https://img.shields.io/badge/license-MIT-green
@@ -191,7 +192,3 @@ https://starchart.cc/Alextaylorvhjnf/Alex-tunnel.svg?variant=adaptive
 ساخته شده با ❤️ توسط Alextaylorvhjnf
 
 
-📜 مجوز
-این پروژه تحت مجوز MIT منتشر شده است.
-
-ساخته شده با ❤️ توسط Alextaylorvhjnf
