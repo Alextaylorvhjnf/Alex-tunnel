@@ -189,3 +189,9 @@ https://starchart.cc/Alextaylorvhjnf/Alex-tunnel.svg?variant=adaptive
 این پروژه تحت مجوز MIT منتشر شده است.
 
 ساخته شده با ❤️ توسط Alextaylorvhjnf
+
+
+📜 مجوز
+این پروژه تحت مجوز MIT منتشر شده است.
+
+ساخته شده با ❤️ توسط Alextaylorvhjnf
