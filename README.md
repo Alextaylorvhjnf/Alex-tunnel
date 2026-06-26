@@ -1,12 +1,10 @@
 ![Menu](https://github.com/Alextaylorvhjnf/Alex-tunnel/blob/main/main.PNG)
 
-باشه، الان دقیقا همون فرمت رو با کدهای جدا میدم:
 
----
-
+```markdown
 # ALEX Tunnel
 
-![Version](https://img.shields.io/badge/version-1.2-blue)
+![Version](https://img.shields.io/badge/version-1.2.1-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Linux%20x86__64-orange)
 
@@ -37,7 +35,7 @@
 ### روش ۱: اجرای سریع (توصیه شده)
 
 ```bash
-bash <(curl -Ls https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh)
+bash <(curl -Ls https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh)
 ```
 
 ---
@@ -45,7 +43,7 @@ bash <(curl -Ls https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/ma
 ### روش ۲: دانلود فایل اسکریپت
 
 ```bash
-wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh -O /root/alex_manager.sh
+wget https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh -O /root/alex_manager.sh
 ```
 
 ---
@@ -68,7 +66,7 @@ bash /root/alex_manager.sh
 
 ### روش ۵: آپلود با SFTP (برای سرورهای بدون دسترسی به گیت‌هاب)
 
-فایل `alex_manager.sh` را از طریق SFTP در مسیر `/root/` آپلود کنید، سپس دستورات زیر را اجرا کنید:
+فایل `alex_manager.sh` را از طریق SFTP در مسیر `/root/` آپلود کنید، سپس:
 
 ```bash
 chmod +x /root/alex_manager.sh
@@ -95,7 +93,7 @@ ALEX
 #### اگر سرور شما به گیت‌هاب دسترسی دارد
 
 ```bash
-wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip -O /root/alex-core/ALEX-x86-64-linux.zip
+wget https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/core/ALEX-x86-64-linux.zip -O /root/alex-core/ALEX-x86-64-linux.zip
 ```
 
 ---
@@ -106,6 +104,28 @@ wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALE
 
 ```bash
 put ALEX-x86-64-linux.zip /root/alex-core/ALEX-x86-64-linux.zip
+```
+
+---
+
+## 📥 لینک‌های مستقیم دانلود
+
+**اسکریپت اصلی:**
+
+```
+https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh
+```
+
+**هسته ALEX:**
+
+```
+https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/core/ALEX-x86-64-linux.zip
+```
+
+**ابزار پایش پهنای باند:**
+
+```
+https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/tools/alex-port-monitor.sh
 ```
 
 ---
@@ -167,7 +187,7 @@ put ALEX-x86-64-linux.zip /root/alex-core/ALEX-x86-64-linux.zip
 
 | نکته | توضیحات |
 |------|----------|
-| 🔌 **دسترسی به گیت‌هاب** | اگر سرورتان به گیت‌هاب دسترسی ندارد، فایل `ALEX-x86-64-linux.zip` را در مسیر `/root/alex-core/` قرار دهید و اسکریپت را با متغیر `ALEX_LOCAL_ZIP` اجرا کنید |
+| 🔌 **دسترسی به گیت‌هاب** | اگر سرورتان به گیت‌هاب دسترسی ندارد، فایل `ALEX-x86-64-linux.zip` را در مسیر `/root/alex-core/` قرار دهید |
 | 📊 **پایش پهنای باند** | پس از راه‌اندازی تونل، از گزینه مربوط به پایش پهنای باند برای بررسی مصرف استفاده کنید |
 | 🔄 **مدیریت خطا** | اسکریپت به‌طور خودکار دو خطای متوالی در لاگ‌ها را تشخیص داده و تونل را ری‌استارت می‌کند |
 | 🛡️ **امنیت** | حتماً توکن امنیتی پیش‌فرض را تغییر دهید |
@@ -178,35 +198,14 @@ put ALEX-x86-64-linux.zip /root/alex-core/ALEX-x86-64-linux.zip
 ## 📂 ساختار ریپازیتوری
 
 ```
-Alextaylorvhjnf/Alex-tunnel
-├── alex_manager.sh                 # اسکریپت اصلی مدیریت تونل
+Alextaylorvhjnf/ALEX-Tunnel
+├── alex_manager.sh
 ├── core/
-│   └── ALEX-x86-64-linux.zip      # هسته ALEX برای لینوکس x86_64
+│   └── ALEX-x86-64-linux.zip
 ├── tools/
-│   └── alex-port-monitor.sh       # ابزار پایش پهنای باند
-└── README.md                      # این فایل
-```
-
----
-
-## 📥 لینک‌های مستقیم دانلود
-
-**اسکریپت اصلی:**
-
-```
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh
-```
-
-**هسته ALEX:**
-
-```
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip
-```
-
-**ابزار پایش پهنای باند:**
-
-```
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-port-monitor.sh
+│   └── alex-port-monitor.sh
+├── README.md
+└── LICENSE
 ```
 
 ---
@@ -217,7 +216,6 @@ https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-po
 - **معماری**: x86_64
 - **دسترسی**: root یا sudo
 - **پورت‌ها**: حداقل یک پورت آزاد برای تونل
-- **اینترنت**: دسترسی به گیت‌هاب برای دانلود اولیه (یا آپلود دستی فایل‌ها)
 
 ---
 
@@ -227,18 +225,45 @@ https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-po
 |------|---------|
 | **خطای ۴۰۴ در نصب** | مطمئن شوید فایل `alex_manager.sh` در ریشه ریپازیتوری قرار دارد |
 | **خطای دانلود هسته** | فایل `ALEX-x86-64-linux.zip` را دستی در `/root/alex-core/` قرار دهید |
-| **پورت در حال استفاده** | پورت دیگری انتخاب کنید یا پورت مورد نظر را آزاد کنید |
+| **پورت در حال استفاده** | پورت دیگری انتخاب کنید |
 | **سرویس start نمی‌شود** | `journalctl -u ALEX-* -f` |
-| **VXLAN کار نمی‌کند** | مطمئن شوید پورت UDP برای تونل مستقیم باز است |
+| **VXLAN کار نمی‌کند** | مطمئن شوید پورت UDP باز است |
 
 ---
 
 ## 📞 پشتیبانی
 
-- **مخزن گیت‌هاب**: [Alextaylorvhjnf/Alex-tunnel](https://github.com/Alextaylorvhjnf/Alex-tunnel)
-- **مشکلات دسترسی**: در صورت نبود دسترسی به گیت‌هاب، با مدیر سرور خود برای آپلود فایل‌ها هماهنگ کنید
+- **مخزن گیت‌هاب**: [Alextaylorvhjnf/ALEX-Tunnel](https://github.com/Alextaylorvhjnf/ALEX-Tunnel)
 - **گزارش باگ**: از طریق Issues گیت‌هاب اقدام کنید
 
+---
+
+## ❤️ حمایت مالی
+
+| ارز | آدرس ولت |
+|------|------------|
+| **Tron (TRC20)** | `TW5PYnp4Byr8WVQKiU8NFhDfMYTsCkyB4u` |
+
+---
+
+## ⭐ استارگیزرها در طول زمان
+
+[![Stargazers over time](https://starchart.cc/Alextaylorvhjnf/ALEX-Tunnel.svg?variant=adaptive)](https://starchart.cc/Alextaylorvhjnf/ALEX-Tunnel)
+
+---
+
+## 📜 مجوز
+
+این پروژه تحت مجوز MIT منتشر شده است.
+
+---
+
+**ساخته شده با ❤️ توسط [Alextaylorvhjnf](https://github.com/Alextaylorvhjnf)**
+```
+
+---
+
+اینم README نهایی با لینک‌های درست `ALEX-Tunnel` و تمام دستورات جدا جدا برای کپی. 🚀
 ---
 
 ## ❤️ حمایت مالی
@@ -267,4 +292,3 @@ https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-po
 
 ---
 
-تموم شد. اینم README کامل و نهایی با کدهای جدا و مرتب. 🚀
