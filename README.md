@@ -176,4 +176,6 @@ https://starchart.cc/Alextaylorvhjnf/Alex-tunnel.svg?variant=adaptive
 📜 مجوز
 این پروژه تحت مجوز MIT منتشر شده است.
 
+ساخته شده با ❤️ توسط Alextaylorvhjnf MIT منتشر شده است.
+
 ساخته شده با ❤️ توسط Alextaylorvhjnf
