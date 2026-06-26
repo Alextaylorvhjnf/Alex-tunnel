@@ -145,16 +145,20 @@ download_and_extract_alex() {
         return 0
     fi
     
-    DOWNLOAD_URL="https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/core/ALEX-x86-64-linux.zip"
+    DOWNLOAD_URL="https://github.com/Alextaylorvhjnf/ALEX-Tunnel/raw/main/core/ALEX-x86-64-linux.zip"
     DOWNLOAD_DIR=$(mktemp -d)
     ZIP_FILE="$DOWNLOAD_DIR/alex.zip"
     
     echo -e "${CYAN}🌐 Downloading ALEX core...${NC}"
     echo
     
-    if ! curl -sSL --connect-timeout 10 -o "$ZIP_FILE" "$DOWNLOAD_URL" 2>/dev/null; then
-        rm -rf "$DOWNLOAD_DIR"
-        manual_download_instructions
+    # Try curl with IPv4 first
+    if ! curl -4 -sSL --connect-timeout 15 -o "$ZIP_FILE" "$DOWNLOAD_URL" 2>/dev/null; then
+        # Try without forcing IPv4
+        if ! curl -sSL --connect-timeout 15 -o "$ZIP_FILE" "$DOWNLOAD_URL" 2>/dev/null; then
+            rm -rf "$DOWNLOAD_DIR"
+            manual_download_instructions
+        fi
     fi
     
     if ! validate_zip_file "$ZIP_FILE"; then
@@ -170,7 +174,7 @@ download_and_extract_alex() {
         manual_download_instructions
     fi
     
-    # ⭐ IMPORTANT: Rename rgt binary to alex
+    # Rename rgt binary to alex
     if [[ -f "${CONFIG_DIR}/rgt" ]]; then
         mv "${CONFIG_DIR}/rgt" "${ALEX_BIN}"
         chmod +x "${ALEX_BIN}"
@@ -201,15 +205,17 @@ update_script() {
     echo -e "${CYAN}╚════════════════════════════════════════════╝${NC}"
     echo
     
-    UPDATE_URL="https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh"
+    UPDATE_URL="https://github.com/Alextaylorvhjnf/ALEX-Tunnel/raw/main/alex_manager.sh"
     TEMP_SCRIPT="/tmp/alex_manager.sh"
     
     show_progress "Downloading updated script"
-    if ! curl -sSL -o "$TEMP_SCRIPT" "$UPDATE_URL"; then
-        show_error "Failed to download updated script"
-        rm -f "$TEMP_SCRIPT" 2>/dev/null
-        press_key
-        return 1
+    if ! curl -4 -sSL --connect-timeout 15 -o "$TEMP_SCRIPT" "$UPDATE_URL" 2>/dev/null; then
+        if ! curl -sSL --connect-timeout 15 -o "$TEMP_SCRIPT" "$UPDATE_URL" 2>/dev/null; then
+            show_error "Failed to download updated script"
+            rm -f "$TEMP_SCRIPT" 2>/dev/null
+            press_key
+            return 1
+        fi
     fi
     
     if ! grep -q "ALEX TUNNEL MANAGER" "$TEMP_SCRIPT"; then
@@ -1091,7 +1097,7 @@ mkdir -p "$CONFIG_DIR"
 
 if [[ "$0" == "/dev/fd/"* || "$0" == "bash" ]]; then
     show_progress "Installing ALEX Manager"
-    if ! curl -sSL -o "${SCRIPT_PATH}" "https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh"; then
+    if ! curl -4 -sSL --connect-timeout 15 -o "${SCRIPT_PATH}" "https://github.com/Alextaylorvhjnf/ALEX-Tunnel/raw/main/alex_manager.sh"; then
         show_error "Failed to download script"
         press_key
         exit 1
@@ -1113,7 +1119,7 @@ fi
 
 if [[ ! -f "${SCRIPT_PATH}" ]]; then
     show_progress "Installing ALEX Manager"
-    if ! curl -sSL -o "${SCRIPT_PATH}" "https://raw.githubusercontent.com/Alextaylorvhjnf/ALEX-Tunnel/main/alex_manager.sh"; then
+    if ! curl -4 -sSL --connect-timeout 15 -o "${SCRIPT_PATH}" "https://github.com/Alextaylorvhjnf/ALEX-Tunnel/raw/main/alex_manager.sh"; then
         show_error "Failed to download script"
         press_key
         exit 1
