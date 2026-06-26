@@ -1,54 +1,39 @@
 ![Menu](https://github.com/Alextaylorvhjnf/Alex-tunnel/blob/main/main.PNG)
 
 
-# ALEX Tunnel
+ALEX Tunnel
+https://img.shields.io/badge/version-1.2-blue
+https://img.shields.io/badge/license-MIT-green
+https://img.shields.io/badge/platform-Linux%2520x86__64-orange
 
-![Version](https://img.shields.io/badge/version-1.2-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-![Platform](https://img.shields.io/badge/platform-Linux%20x86__64-orange)
+ALEX Tunnel Manager
+اسکریپت ALEX یک ابزار قدرتمند و بهینه برای ایجاد تونل‌های ارتباطی بر پایه پروتکل‌های TCP و UDP است که از هر دو روش مستقیم (Direct) و معکوس (Reverse) پشتیبانی می‌کند. مصرف منابع این تونل به حداقل رسیده و شما می‌توانید در چند ثانیه تونل خود را راه‌اندازی کنید.
 
-### ALEX Tunnel Manager
-
-اسکریپت **ALEX** یک ابزار قدرتمند و بهینه برای ایجاد تونل‌های ارتباطی بر پایه پروتکل‌های **TCP** و **UDP** است که از هر دو روش **مستقیم (Direct)** و **معکوس (Reverse)** پشتیبانی می‌کند. مصرف منابع این تونل به حداقل رسیده و شما می‌توانید در چند ثانیه تونل خود را راه‌اندازی کنید.
-
----
-
-## ⚙️ ویژگی‌ها
-
-| ویژگی | توضیحات |
-|--------|-----------|
-| 🚀 **راه‌اندازی فوق‌سریع** | تنها با چند مرحله ساده، تونل Reverse یا Direct (ایران ↔ خارج) را ایجاد کنید |
-| 📊 **پایش پهنای باند** | میزان مصرف پهنای باند تونل را با ابزار سبک `vnstat` بررسی کنید |
-| 🔄 **مدیریت خودکار خطاها** | تشخیص خطاهای متوالی در لاگ‌ها و راه‌اندازی مجدد خودکار تونل |
-| 🔧 **انعطاف‌پذیری بالا** | پشتیبانی از پروتکل‌های TCP و UDP، آدرس‌های IPv4 و IPv6 و پورت‌های دلخواه |
-| ⌨️ **دسترسی آسان** | پس از اولین اجرا، اسکریپت از طریق دستور `ALEX` در دسترس خواهد بود |
-| 🔒 **یکپارچگی با Systemd** | تونل‌ها به‌صورت سرویس‌های پایدار اجرا می‌شوند |
-| 🎨 **رابط کاربری جذاب** | منوهای رنگی و پیام‌های شفاف برای تجربه کاربری بهتر |
-| ⏰ **زمان‌بندی ریستارت** | قابلیت تنظیم Cron Job برای ریستارت خودکار تونل |
-| 🛡️ **پشتیبانی از HAProxy** | لود بالانسینگ خودکار برای تونل‌های Direct |
-
----
-
-## 📥 دریافت و اجرای اسکریپت
-
-### روش ۱: اجرای سریع (توصیه شده)
-
-```bash
+⚙️ ویژگی‌ها
+ویژگی	توضیحات
+🚀 راه‌اندازی فوق‌سریع	تنها با چند مرحله ساده، تونل Reverse یا Direct (ایران ↔ خارج) را ایجاد کنید
+📊 پایش پهنای باند	میزان مصرف پهنای باند تونل را با ابزار سبک vnstat بررسی کنید
+🔄 مدیریت خودکار خطاها	تشخیص خطاهای متوالی در لاگ‌ها و راه‌اندازی مجدد خودکار تونل
+🔧 انعطاف‌پذیری بالا	پشتیبانی از پروتکل‌های TCP و UDP، آدرس‌های IPv4 و IPv6 و پورت‌های دلخواه
+⌨️ دسترسی آسان	پس از اولین اجرا، اسکریپت از طریق دستور ALEX در دسترس خواهد بود
+🔒 یکپارچگی با Systemd	تونل‌ها به‌صورت سرویس‌های پایدار اجرا می‌شوند
+🎨 رابط کاربری جذاب	منوهای رنگی و پیام‌های شفاف برای تجربه کاربری بهتر
+⏰ زمان‌بندی ریستارت	قابلیت تنظیم Cron Job برای ریستارت خودکار تونل
+🛡️ پشتیبانی از HAProxy	لود بالانسینگ خودکار برای تونل‌های Direct
+📥 دریافت و اجرای اسکریپت
+روش ۱: اجرای سریع (توصیه شده)
+bash
 bash <(curl -Ls https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh)
-روش ۲: دانلود و اجرای دستی
-مرحله ۱ - دانلود:
-
+روش ۲: دانلود فایل اسکریپت
 bash
 wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh -O /root/alex_manager.sh
-مرحله ۲ - مجوز اجرا:
-
+روش ۳: دادن مجوز اجرا به فایل
 bash
 chmod +x /root/alex_manager.sh
-مرحله ۳ - اجرا:
-
+روش ۴: اجرای فایل اسکریپت
 bash
 bash /root/alex_manager.sh
-روش ۳: آپلود با SFTP (برای سرورهای بدون دسترسی به گیت‌هاب)
+روش ۵: آپلود با SFTP (برای سرورهای بدون دسترسی به گیت‌هاب)
 فایل alex_manager.sh را از طریق SFTP در مسیر /root/ آپلود کنید، سپس:
 
 bash
@@ -56,8 +41,6 @@ chmod +x /root/alex_manager.sh
 bash
 bash /root/alex_manager.sh
 اجرای مجدد اسکریپت (پس از نصب اولیه)
-پس از اولین نصب، اسکریپت از طریق دستور زیر در دسترس خواهد بود:
-
 bash
 ALEX
 🚀 راهنمای شروع سریع
@@ -70,6 +53,19 @@ wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALE
 
 bash
 put ALEX-x86-64-linux.zip /root/alex-core/ALEX-x86-64-linux.zip
+📥 لینک‌های مستقیم دانلود
+اسکریپت اصلی:
+
+text
+https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh
+هسته ALEX:
+
+text
+https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip
+ابزار پایش پهنای باند:
+
+text
+https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-port-monitor.sh
 ✅ راهنمای تنظیم تونل مستقیم (Direct)
 ابتدا هسته ALEX را با گزینه ۳ روی هر دو سرور نصب کنید (اگر در ایران با خطا مواجه شد، فایل را دانلود کرده، با SFTP آپلود و استخراج نمایید).
 
@@ -138,25 +134,12 @@ IP ایران، پورت تونل، پروتکل، توکن امنیتی و پو
 📂 ساختار ریپازیتوری
 text
 Alextaylorvhjnf/Alex-tunnel
-├── alex_manager.sh                 # اسکریپت اصلی مدیریت تونل
+├── alex_manager.sh
 ├── core/
-│   └── ALEX-x86-64-linux.zip      # هسته ALEX برای لینوکس x86_64
+│   └── ALEX-x86-64-linux.zip
 ├── tools/
-│   └── alex-port-monitor.sh       # ابزار پایش پهنای باند
-└── README.md                      # این فایل
-📥 لینک‌های مستقیم دانلود
-اسکریپت اصلی:
-
-text
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh
-هسته ALEX:
-
-text
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip
-ابزار پایش پهنای باند:
-
-text
-https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-port-monitor.sh
+│   └── alex-port-monitor.sh
+└── README.md
 🖥️ پیش‌نیازهای سیستم
 سیستم‌عامل: Ubuntu 18.04+ / Debian 10+ / CentOS 7+
 
@@ -173,7 +156,7 @@ https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-po
 خطای ۴۰۴ در نصب	مطمئن شوید فایل alex_manager.sh در ریشه ریپازیتوری قرار دارد
 خطای دانلود هسته	فایل ALEX-x86-64-linux.zip را دستی در /root/alex-core/ قرار دهید
 پورت در حال استفاده	پورت دیگری انتخاب کنید یا پورت مورد نظر را آزاد کنید
-سرویس start نمی‌شود	لاگ‌ها را بررسی کنید: journalctl -u ALEX-* -f
+سرویس start نمی‌شود	journalctl -u ALEX-* -f
 VXLAN کار نمی‌کند	مطمئن شوید پورت UDP برای تونل مستقیم باز است
 📞 پشتیبانی
 مخزن گیت‌هاب: Alextaylorvhjnf/Alex-tunnel
