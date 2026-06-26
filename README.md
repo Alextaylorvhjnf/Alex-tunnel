@@ -1,30 +1,39 @@
 ![Menu](https://github.com/Alextaylorvhjnf/Alex-tunnel/blob/main/main.PNG)
 
 
-ALEX Tunnel
-https://img.shields.io/badge/version-1.2-blue
-https://img.shields.io/badge/license-MIT-green
-https://img.shields.io/badge/platform-Linux%2520x86__64-orange
+# ALEX Tunnel
 
-ALEX Tunnel Manager
-اسکریپت ALEX یک ابزار قدرتمند و بهینه برای ایجاد تونل‌های ارتباطی بر پایه پروتکل‌های TCP و UDP است که از هر دو روش مستقیم (Direct) و معکوس (Reverse) پشتیبانی می‌کند. مصرف منابع این تونل به حداقل رسیده و شما می‌توانید در چند ثانیه تونل خود را راه‌اندازی کنید.
+![Version](https://img.shields.io/badge/version-1.2-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
+![Platform](https://img.shields.io/badge/platform-Linux%20x86__64-orange)
 
-⚙️ ویژگی‌ها
-ویژگی	توضیحات
-🚀 راه‌اندازی فوق‌سریع	تنها با چند مرحله ساده، تونل Reverse یا Direct (ایران ↔ خارج) را ایجاد کنید
-📊 پایش پهنای باند	میزان مصرف پهنای باند تونل را با ابزار سبک vnstat بررسی کنید
-🔄 مدیریت خودکار خطاها	تشخیص خطاهای متوالی در لاگ‌ها و راه‌اندازی مجدد خودکار تونل
-🔧 انعطاف‌پذیری بالا	پشتیبانی از پروتکل‌های TCP و UDP، آدرس‌های IPv4 و IPv6 و پورت‌های دلخواه
-⌨️ دسترسی آسان	پس از اولین اجرا، اسکریپت از طریق دستور ALEX در دسترس خواهد بود
-🔒 یکپارچگی با Systemd	تونل‌ها به‌صورت سرویس‌های پایدار اجرا می‌شوند
-🎨 رابط کاربری جذاب	منوهای رنگی و پیام‌های شفاف برای تجربه کاربری بهتر
-⏰ زمان‌بندی ریستارت	قابلیت تنظیم Cron Job برای ریستارت خودکار تونل
-🛡️ پشتیبانی از HAProxy	لود بالانسینگ خودکار برای تونل‌های Direct
-📥 دریافت و اجرای اسکریپت
-روش ۱: اجرای سریع (توصیه شده)
-کپی کنید:
+### ALEX Tunnel Manager
 
-bash
+اسکریپت **ALEX** یک ابزار قدرتمند و بهینه برای ایجاد تونل‌های ارتباطی بر پایه پروتکل‌های **TCP** و **UDP** است که از هر دو روش **مستقیم (Direct)** و **معکوس (Reverse)** پشتیبانی می‌کند. مصرف منابع این تونل به حداقل رسیده و شما می‌توانید در چند ثانیه تونل خود را راه‌اندازی کنید.
+
+---
+
+## ⚙️ ویژگی‌ها
+
+| ویژگی | توضیحات |
+|--------|-----------|
+| 🚀 **راه‌اندازی فوق‌سریع** | تنها با چند مرحله ساده، تونل Reverse یا Direct (ایران ↔ خارج) را ایجاد کنید |
+| 📊 **پایش پهنای باند** | میزان مصرف پهنای باند تونل را با ابزار سبک `vnstat` بررسی کنید |
+| 🔄 **مدیریت خودکار خطاها** | تشخیص خطاهای متوالی در لاگ‌ها و راه‌اندازی مجدد خودکار تونل |
+| 🔧 **انعطاف‌پذیری بالا** | پشتیبانی از پروتکل‌های TCP و UDP، آدرس‌های IPv4 و IPv6 و پورت‌های دلخواه |
+| ⌨️ **دسترسی آسان** | پس از اولین اجرا، اسکریپت از طریق دستور `ALEX` در دسترس خواهد بود |
+| 🔒 **یکپارچگی با Systemd** | تونل‌ها به‌صورت سرویس‌های پایدار اجرا می‌شوند |
+| 🎨 **رابط کاربری جذاب** | منوهای رنگی و پیام‌های شفاف برای تجربه کاربری بهتر |
+| ⏰ **زمان‌بندی ریستارت** | قابلیت تنظیم Cron Job برای ریستارت خودکار تونل |
+| 🛡️ **پشتیبانی از HAProxy** | لود بالانسینگ خودکار برای تونل‌های Direct |
+
+---
+
+## 📥 دریافت و اجرای اسکریپت
+
+### روش ۱: اجرای سریع (توصیه شده)
+
+```bash
 bash <(curl -Ls https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh)
 روش ۲: دانلود و اجرای دستی
 مرحله ۱ - دانلود:
@@ -42,8 +51,6 @@ bash /root/alex_manager.sh
 روش ۳: آپلود با SFTP (برای سرورهای بدون دسترسی به گیت‌هاب)
 فایل alex_manager.sh را از طریق SFTP در مسیر /root/ آپلود کنید، سپس:
 
-کپی کنید:
-
 bash
 chmod +x /root/alex_manager.sh
 bash
@@ -51,21 +58,15 @@ bash /root/alex_manager.sh
 اجرای مجدد اسکریپت (پس از نصب اولیه)
 پس از اولین نصب، اسکریپت از طریق دستور زیر در دسترس خواهد بود:
 
-کپی کنید:
-
 bash
 ALEX
 🚀 راهنمای شروع سریع
 نصب هسته ALEX:
 اگر سرور شما به گیت‌هاب دسترسی دارد:
-کپی کنید:
-
 bash
 wget https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip -O /root/alex-core/ALEX-x86-64-linux.zip
 اگر به گیت‌هاب دسترسی ندارید:
 فایل ALEX-x86-64-linux.zip را از طریق SFTP به مسیر /root/alex-core/ روی سرور خود آپلود کنید:
-
-کپی کنید:
 
 bash
 put ALEX-x86-64-linux.zip /root/alex-core/ALEX-x86-64-linux.zip
@@ -145,12 +146,15 @@ Alextaylorvhjnf/Alex-tunnel
 └── README.md                      # این فایل
 📥 لینک‌های مستقیم دانلود
 اسکریپت اصلی:
+
 text
 https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/alex_manager.sh
 هسته ALEX:
+
 text
 https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/core/ALEX-x86-64-linux.zip
 ابزار پایش پهنای باند:
+
 text
 https://raw.githubusercontent.com/Alextaylorvhjnf/Alex-tunnel/main/tools/alex-port-monitor.sh
 🖥️ پیش‌نیازهای سیستم
@@ -190,5 +194,3 @@ https://starchart.cc/Alextaylorvhjnf/Alex-tunnel.svg?variant=adaptive
 این پروژه تحت مجوز MIT منتشر شده است.
 
 ساخته شده با ❤️ توسط Alextaylorvhjnf
-
-
